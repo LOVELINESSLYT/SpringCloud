@@ -1,0 +1,47 @@
+server:
+  port: 80
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  application:
+    name: zuul-service
+  zipkin:
+    base-url: http://localhost:9411
+# 路由映射
+zuul:
+  #所有服务路径前统一加上前缀
+  prefix: /api
+  ribbon:
+    eager-load:
+      enabled: false
+  routes:
+    api-a:
+      # 访问路径
+      path: /data/**
+      # 服务名
+      serviceId: DATA-SERVICE
+    api-b:
+      path: /view/**
+      serviceId: FEIGN-SERVICE
+  host:
+    socket-timeout-millis: 60000
+    connect-timeout-millis: 60000
+
+ribbon:
+  ReadTimeout: 120000 #请求处理的超时时间
+  ConnectTimeout: 60000 #请求连接的超时时间
+
+hystrix:
+  command:
+    c4i-store:
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 120000
+            ribbon:
+              ReadTimeout: 120000
+              ConnectTimeout: 60000

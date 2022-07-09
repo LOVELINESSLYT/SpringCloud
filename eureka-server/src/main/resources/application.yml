@@ -1,0 +1,24 @@
+# 开发环境配置。
+server:
+  # 注册中心的端口。
+  port: 8761
+
+# 注册中心配置。
+eureka:
+  instance:
+    # 主机名称。
+    hostname: localhost
+  client:
+    # 是否注册到服务器。因为它本身就是服务器，所以就无需把自己注册到服务器了。
+    registerWithEureka: false
+    # 是否获取服务器的注册信息，和上面同理，这里也设置为 false。
+    fetchRegistry: false
+    serviceUrl:
+      # http://${eureka.instance.hostname}:${server.port}/eureka/ 自己作为服务器，公布出来的地址。
+      # 比如后续某个微服务要把自己注册到 eureka server, 那么就要使用这个地址：http://localhost:8761/eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  application:
+    # 微服务的名称 eureka-server
+    name: eureka-server

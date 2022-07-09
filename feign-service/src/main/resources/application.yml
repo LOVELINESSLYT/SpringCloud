@@ -1,0 +1,33 @@
+# server.port 就不设置了，因为要启动多个端口，如 8011、8012、8013 ...... 。
+
+# Spring的配置
+spring:
+  application:
+    # 视图微服务名称
+    name: feign-service
+  zipkin:
+    base-url: http://localhost:9411
+  # 模板引擎配置
+  profiles: default
+  freemarker:
+    template-loader-path: classpath:/templates/views/ftl/
+    cache: false
+    check-template-location: true
+    content-type: text/html; charset=UTF-8
+    expose-request-attributes: true
+    expose-session-attributes: true
+    request-context-attribute: request
+    suffix: .ftl
+# 开启断路器
+feign:
+  hystrix:
+    enabled: true
+# 路径访问允许
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
